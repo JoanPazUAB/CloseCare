@@ -147,4 +147,4 @@ st.write(df_result)
 st.write(df_outliers)
 
 chart = plot_outliers(df_result, low, up)
-st.altair_chart(chart_with_title, use_container_width=True)
+st.altair_chart(chart, use_container_width=True)
