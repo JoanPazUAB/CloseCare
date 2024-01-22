@@ -82,7 +82,7 @@ def check_outliers(df, column_name, start_date, end_date, rolling_period, sensit
 
 def plot_outliers(df_result, lower_threshold, upper_threshold):
     # Habilitar la renderización en el notebook
-    alt.renderers.enable('notebook')
+    
 
     # Crear un gráfico de dispersión con líneas de tendencia y umbrales sombreados
     chart = alt.Chart(df_result).mark_point().encode(
