@@ -138,10 +138,13 @@ sensitivity = 0
 
 df_result, df_outliers, low, up = check_outliers(df, 'Columna', start_date, end_date, rolling_period, sensitivity)
 
-# chart = plot_outliers(df_result, low, up)
-# chart.show()
+
+
 # Mostrar los resultados
 # print('Resultados del Chequeo de Outliers:')
 st.write(df_result)
 # print('Outliers Identificados:')
 st.write(df_outliers)
+
+chart = plot_outliers(df_result, low, up)
+st.altair_chart(chart_with_title, use_container_width=True)
