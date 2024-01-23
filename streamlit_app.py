@@ -143,5 +143,9 @@ st.write(df_result)
 # print('Outliers Identificados:')
 st.write(df_outliers)
 
+st.write(f"Streamlit version: {st.__version__}")
+st.write(f"Altair version: {alt.__version__}")
+
 chart = plot_outliers(df_result, low, up)
+st.write(chart)
 st.altair_chart(chart, use_container_width=True)
