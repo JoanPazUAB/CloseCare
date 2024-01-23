@@ -81,15 +81,37 @@ def check_outliers(df, column_name, start_date, end_date, rolling_period, sensit
 #     return chart
 
 def plot_outliers(df_result, lower_threshold, upper_threshold):
-    # Habilitar la renderización en el notebook
-    
-
     # Crear un gráfico de dispersión con líneas de tendencia y umbrales sombreados
     chart = alt.Chart(df_result).mark_point().encode(
         x='Fecha:T',
         y='Media_Periodo:Q',
         tooltip=['Fecha:T', 'Media_Periodo:Q']
     ).properties(width=600, height=400)
+
+    # Línea de tendencia
+    trendline = chart.transform_regression('Fecha', 'Media_Periodo').mark_line()
+
+    # Líneas de umbrales
+    lower_threshold_line = alt.Chart(pd.DataFrame({'threshold': [lower_threshold]})).mark_rule(color='red', strokeWidth=2).encode(y='threshold:Q')
+    upper_threshold_line = alt.Chart(pd.DataFrame({'threshold': [upper_threshold]})).mark_rule(color='red', strokeWidth=2).encode(y='threshold:Q')
+
+    # Sombreado entre umbrales
+    shaded_area = alt.Chart(df_result).mark_area(opacity=0.3, color='red').encode(
+        x='Fecha:T',
+        y='lower_threshold:Q',
+        y2='upper_threshold:Q'
+    ).transform_calculate(
+        lower_threshold=f"{lower_threshold}",
+        upper_threshold=f"{upper_threshold}"
+    )
+
+    # Combinar todos los elementos
+    chart = (chart + trendline + lower_threshold_line + upper_threshold_line + shaded_area).properties(
+        title='Gráfico de Outliers'
+    ).configure_axis(
+        labelFontSize=12,
+        titleFontSize=14
+    )
 
     return chart
 
